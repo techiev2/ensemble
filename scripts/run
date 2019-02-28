@@ -1,0 +1,45 @@
+#! /bin/bash
+
+SCRIPT="${BASH_SOURCE[0]}"
+SCRIPT_DIR="$(realpath $(dirname $SCRIPT))"
+APP_ROOT=$(dirname $SCRIPT_DIR)
+
+ENVFILE="$APP_ROOT/.envfile"
+if [[ ! -f $ENVFILE ]]; then
+  msg="No environment information file found at app root. "
+  msg="Expected an .envfile at $APP_ROOT. Exiting"
+  echo -e "$msg"
+  exit 1
+fi
+source "$ENVFILE"
+
+if [[ -z "$VENV_NAME" ]]; then
+  msg="No environment name provided. A virtual environment is suggested"
+  msg="$msg to avoid namespace/library versoining collisons. Exiting"
+  echo -e "$msg"
+  exit 1
+fi
+
+source "$SCRIPT_DIR/utilities"
+RUNNER="$APP_ROOT/run.py"
+
+if [[ ! -f "$RUNNER" ]]; then
+  echo -e "Runner not found at $RUNNER. Exiting"
+  exit 1
+fi
+
+getArguments "$@"
+component="${procArgs['-c']}"
+if [[ -z $component ]]; then
+  echo -e "No component specified. Exiting"
+  exit 1
+fi
+case "$component" in
+  "api" )
+    "$VENV_PY" "$RUNNER"
+    ;;
+  * )
+    echo -e "Non standard call to runner <${component}>. Exiting"
+    exit 1
+    ;;
+esac

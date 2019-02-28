@@ -1,0 +1,21 @@
+#! /bin/bash
+
+SCRIPT="${BASH_SOURCE[0]}"
+SCRIPT_DIR="$(realpath $(dirname $SCRIPT))"
+APP_ROOT=$(dirname $SCRIPT_DIR)
+
+source "$SCRIPT_DIR/utilities"
+
+getArguments "$@"
+component="${procArgs['-c']}"
+if [[ -z $component ]]; then
+  echo -e "No component specified. Exiting"
+  exit 1
+fi
+componentFile="$SCRIPT_DIR/components/$component"
+if [[ -z $componentFile ]]; then
+  echo -e "Component setup file for [${component}] not found"
+  exit 1
+fi
+source "$componentFile"
+setup

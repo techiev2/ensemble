@@ -1,0 +1,53 @@
+#! /bin/bash
+
+ENVFILE="$APP_ROOT/.envfile"
+REQUIREMENTS="$APP_ROOT/requirements.txt"
+
+if [[ ! -f $ENVFILE ]]; then
+  msg="No environment information file found at app root. "
+  msg="Expected an .envfile at $APP_ROOT. Exiting"
+  echo -e "$msg"
+  exit 1
+fi
+
+if [[ ! -f $REQUIREMENTS ]]; then
+  msg="No PyPi requirements file found at app root. "
+  msg="Expected a requirements.txt at $APP_ROOT. Exiting"
+  echo -e "$msg"
+  exit 1
+fi
+
+source "$ENVFILE"
+
+if [[ -z "$VENV_NAME" ]]; then
+  msg="No environment name provided. A virtual environment is suggested"
+  msg="$msg to avoid namespace/library versoining collisons. Exiting"
+  echo -e "$msg"
+  exit 1
+fi
+
+if [[ -z "$PY_VERSION" ]]; then
+  PY_VERSION="3.7"
+fi
+if [[ "$PY_VERSION" == "3"* ]]; then
+  PY_SUFFIX="3"
+else
+  PY_SUFFIX=""
+fi
+
+setupSystem() {
+  packages="g++ coreutils build-essential"
+  packages="$packages python$PY_VERSION python$PY_SUFFIX-dev"
+  packages="$packages python$PY_SUFFIX-pip virtualenv"
+  sudo apt-get install -y $packages -qq
+}
+
+setupEnvironment() {
+  virtualenv -p $(which "python$PY_VERSION") $VENV_PATH
+  $VENV_PIP install -r "$REQUIREMENTS"
+}
+
+setup() {
+  setupSystem
+  setupEnvironment
+}

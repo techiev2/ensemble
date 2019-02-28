@@ -1,0 +1,20 @@
+#! /bin/bash
+
+declare -A procArgs
+getArguments() {
+  IFS=' ' read -ra args <<< "$@"
+  hasArg=false
+  marker=''
+  for arg in "${args[@]}"; do
+    if [[ $hasArg == true ]]; then
+      procArgs[$marker]="$arg"
+      hasArg=false
+      marker=""
+    else
+      if [[ $arg == "-"* ]]; then
+        hasArg=true
+        marker=$arg
+      fi
+    fi
+  done
+}

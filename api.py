@@ -21,6 +21,7 @@ from models.scaffolds import Trigger, TYPE_MAP
 # global namespace, the trigger handle flow falls back to the base State
 # and its trigger.
 from models.slack import SlackState, SlackTrigger
+from models.email import EmailState, EmailTrigger
 
 
 class APIApplication(Application):
@@ -85,8 +86,7 @@ class APIApplication(Application):
     def __init__(self, *args, **kwargs):
         env_trues = ("True", "true")
         kwargs.update({
-            "autoreload": getenv("reload") in env_trues,
-            "debug": getenv("debug") in env_trues
+            "debug": True
         })
         super(APIApplication, self).__init__(*args, **kwargs)
         self.trigger_data_file = "triggers.pkl"

@@ -1,0 +1,9 @@
+{
+  "name": "Gmail",
+  "payload": {
+    "body": "Testing email notifications via Gmail trigger/model",
+    "from": "testuser@gmail.com",
+    "to": "testrecipient@gmail.com",
+    "subject": "Testing email notification triggers"
+  }
+}

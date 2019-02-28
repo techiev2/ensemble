@@ -1,0 +1,15 @@
+{
+  "service": "Slack",
+  "structure": {
+      "text": "str"
+  },
+  "url": "<slack_webhook_url>",
+  "name": "Slack",
+  "state": {
+    "name": "Slack",
+    "transitions": {
+      "init": "assign",
+      "assign": "close"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "service": "Email",
+  "structure": {
+    "from": "str",
+    "subject": "str",
+    "to": "str",
+    "body": "str"
+  },
+  "name": "Gmail"
+}

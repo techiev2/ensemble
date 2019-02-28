@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# pickle files
+*.pkl
+
+# environment file
+.envfile

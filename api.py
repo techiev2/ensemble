@@ -206,23 +206,6 @@ class NotifyController(APIController):
         if not trigger_data:
             return self.respond(400, "Invalid payload")
 
-        # Validate payload based on registered trigger payload structure
-        # trigger_payload = trigger.get("structure")
-        # invalids = 0
-        # payload_data_size = len(list(trigger_payload.keys()))
-        # for key, value in trigger_payload.items():
-        #     data_value = trigger_data.get(key)
-        #     if not isinstance(data_value, value):
-        #         invalids += 1
-
-        # if invalids == payload_data_size:
-        #     return self.respond(
-        #         400,
-        #         "Invalid type for {}. Expected {}, got {}".format(
-        #             key, value, type(data_value)
-        #         )
-        #     )
-
         # Initialize a trigger method on the trigger object, if any.
         trigger_object = self.application.trigger_objects.get(trigger_name)
         try:
